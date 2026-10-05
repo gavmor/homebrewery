@@ -54,6 +54,14 @@ for (const [renderer, themes] of Object.entries(Themes)) {
 	}
 }
 
+//--- 2b. Notification stub (demo has no admin backend) -----------------------
+{
+	const out = path.join(BUILD, 'admin', 'notification', 'all');
+	fs.mkdirSync(path.dirname(out), { recursive: true });
+	fs.writeFileSync(out, '[]');
+	console.log('stubbed', `${BASE}admin/notification/all`);
+}
+
 //--- 3 + 4. SPA fallback + demo brew ---------------------------------------
 const demoBrew = {
 	title    : 'Requisition Order 141/TINE/0004',
@@ -100,7 +108,8 @@ The editor is live: type on the left, watch the Foxhole theme render on the righ
 };
 
 const baseNoSlash = BASE.replace(/\/$/, '');
-const inject = `<script>window.__DEMO_BREW__=${JSON.stringify(demoBrew)};` +
+const inject = `<script>window.__INITIAL_PROPS__=window.__INITIAL_PROPS__||{};` +
+	`window.__DEMO_BREW__=${JSON.stringify(demoBrew)};` +
 	`if(window.location.pathname==='${baseNoSlash}/'||window.location.pathname==='${baseNoSlash}')` +
 	`window.location.replace('${baseNoSlash}/new');</script>`;
 
