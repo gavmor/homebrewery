@@ -107,11 +107,8 @@ The editor is live: type on the left, watch the Foxhole theme render on the righ
 `
 };
 
-const baseNoSlash = BASE.replace(/\/$/, '');
 const inject = `<script>window.__INITIAL_PROPS__=window.__INITIAL_PROPS__||{};` +
-	`window.__DEMO_BREW__=${JSON.stringify(demoBrew)};` +
-	`if(window.location.pathname==='${baseNoSlash}/'||window.location.pathname==='${baseNoSlash}')` +
-	`window.location.replace('${baseNoSlash}/new');</script>`;
+	`window.__DEMO_BREW__=${JSON.stringify(demoBrew)};</script>`;
 
 for (const file of ['index.html', '404.html']) {
 	const p = path.join(BUILD, file);

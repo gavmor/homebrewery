@@ -78,6 +78,12 @@ const Homebrew = (props)=>{
 					<Route path='/share/:id' element={<WithRoute el={SharePage} brew={brew} />} />
 					<Route path='/new/:id' element={<WithRoute el={NewPage} brew={brew} userThemes={userThemes}/>} />
 					<Route path='/new' element={<WithRoute el={NewPage} userThemes={userThemes}/> } />
+					{/* Static demo build only: window.__DEMO_BREW__ is injected by
+					    scripts/pages-demo.js, so / serves the sandbox editor
+					    instead of the homepage. */}
+					{window.__DEMO_BREW__
+						? <Route path='/' element={<WithRoute el={NewPage} userThemes={userThemes}/>} />
+						: <Route path='/' element={<WithRoute el={HomePage} brew={brew} />} />}
 					<Route path='/user/:username' element={<WithRoute el={UserPage} brews={brews} />} />
 					<Route path='/vault' element={<WithRoute el={VaultPage}/>}/>
 					<Route path='/changelog' element={<WithRoute el={SharePage} brew={brew} disableMeta={true} />} />
@@ -86,7 +92,6 @@ const Homebrew = (props)=>{
 					<Route path='/account' element={<WithRoute el={AccountPage} brew={brew} accountDetails={brew.accountDetails} />} />
 					<Route path='/legacy' element={<WithRoute el={HomePage} brew={brew} />} />
 					<Route path='/error' element={<WithRoute el={ErrorPage} brew={brew} />} />
-					<Route path='/' element={<WithRoute el={HomePage} brew={brew} />} />
 					<Route path='/*' element={<WithRoute el={HomePage} brew={brew} />} />
 				</Routes>
 			</div>

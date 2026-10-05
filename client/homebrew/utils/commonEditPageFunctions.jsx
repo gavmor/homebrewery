@@ -126,8 +126,10 @@ export default function useCommonEditPageFunctions(dependencies) {
 		if(brew.style)    localStorage.setItem(STYLEKEY, brew.style);
 		if(brew.snippets) localStorage.setItem(SNIPKEY,  brew.snippets);
 		localStorage.setItem(METAKEY, JSON.stringify({ renderer: brew.renderer, theme: brew.theme, lang: brew.lang }));
-		if(window.location.pathname !== '/new')
-			window.history.replaceState({}, window.location.title, '/new/');
+		// Static demo serves the sandbox editor at / as well; leave the URL alone there.
+		const newPath = `${import.meta.env.BASE_URL}new/`;
+		if(!window.__DEMO_BREW__ && window.location.pathname !== newPath)
+			window.history.replaceState({}, window.location.title, newPath);
 	};
 
 	const clearLocalStorage = ()=>{
