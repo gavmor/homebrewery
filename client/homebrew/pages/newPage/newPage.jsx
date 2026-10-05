@@ -18,7 +18,8 @@ const pageName            = 'newPage';
 
 const NewPage = (props)=>{
 	props = {
-		brew : DEFAULT_BREW,
+		// window.__DEMO_BREW__ is injected by the static GitHub Pages demo build only.
+		brew : (typeof window !== 'undefined' && window.__DEMO_BREW__) || DEFAULT_BREW,
 		...props
 	};
 

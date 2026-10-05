@@ -29,6 +29,13 @@
       "baseSnippets": false,
       "path": "Blank"
     },
+    "Foxhole": {
+      "baseSnippets": false,
+      "baseTheme": "Blank",
+      "name": "Foxhole",
+      "renderer": "V3",
+      "path": "Foxhole"
+    },
     "Journal": {
       "name": "Journal",
       "renderer": "V3",
@@ -42,13 +49,6 @@
       "baseTheme": "Blank",
       "baseSnippets": false,
       "path": "UnearthedArcana"
-    },
-    "Foxhole": {
-      "name": "Foxhole",
-      "renderer": "V3",
-      "baseTheme": "Blank",
-      "baseSnippets": false,
-      "path": "Foxhole"
     }
   }
 }

@@ -157,7 +157,9 @@ const fetchThemeBundle = async (setError = ()=>{}, setThemeBundle = ()=>{}, rend
 		setThemeBundle({});
 		return;
 	}
-	const themeBundle = res.body;
+	// Static hosts (e.g. GitHub Pages) may serve the bundle without a JSON
+	// content-type, leaving res.body empty; fall back to parsing raw text.
+	const themeBundle = res.body && Object.keys(res.body).length ? res.body : JSON.parse(res.text);
 	themeBundle.joinedStyles = themeBundle.styles.map((style)=>`<style>${style}</style>`).join('\n\n');
 	setThemeBundle(themeBundle);
 	setError(null);
