@@ -59,7 +59,7 @@ const Homebrew = (props)=>{
 
 	if(brew.pureError) {
 		return (
-			<Router>
+			<Router basename={import.meta.env.BASE_URL}>
 				<div className={`homebrew${(config?.deployment || config?.developmentStyle) ? ' deployment' : ''}`} style={backgroundObject()}>
 					<Routes>
 						<Route path={brew.originalUrl} element={<WithRoute el={ErrorPage} brew={brew} />} />
@@ -71,7 +71,7 @@ const Homebrew = (props)=>{
 
 
 	return (
-		<Router>
+		<Router basename={import.meta.env.BASE_URL}>
 			<div className={`homebrew${(config?.deployment || config?.developmentStyle) ? ' deployment' : ''}`} style={backgroundObject()}>
 				<Routes>
 					<Route path='/edit/:id' element={<WithRoute el={EditPage} brew={brew} userThemes={userThemes}/>} />

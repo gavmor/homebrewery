@@ -5,6 +5,7 @@ import path from 'path';
 import { generateAssetsPlugin } from './vitePlugins/generateAssetsPlugin.js';
 
 export default defineConfig({
+	base    : process.env.HB_BASE || '/',
 	plugins : [react(), generateAssetsPlugin()],
 	resolve : {
 		alias : {

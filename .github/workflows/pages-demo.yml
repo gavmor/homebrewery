@@ -28,7 +28,11 @@ jobs:
           cache: npm
       - run: npm ci --no-audit --no-fund
       - run: npm run build
+        env:
+          HB_BASE: /homebrewery/
       - run: node scripts/pages-demo.js
+        env:
+          HB_BASE: /homebrewery/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: build
