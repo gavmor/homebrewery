@@ -1,0 +1,240 @@
+// Foxhole — alt-history WWI/WWII field-paperwork theme.
+// Aged paper, TT2020 typewriter body, Special Elite display, rubber stamps.
+// Inherits structure (columns, mustache divs, page numbers) from Blank.
+
+@import (less) './themes/fonts/Foxhole/fonts.less';
+
+:root {
+	//Colors
+	--HB_Color_Background : #F2ECDC; // Aged paper fallback (plate PNG paints over)
+	--HB_Color_Ink        : #26221A; // Typewriter ribbon ink
+	--HB_Color_StampRed   : #9C1F1F; // Rubber stamp red
+	--HB_Color_Rule       : #26221A; // Rules and table lines
+	--HB_Color_RowRule    : #8A8069; // Faint row rules
+	--HB_Color_Muted      : #5A5245; // Marginalia, captions
+	--TOC                 : 'include';
+}
+
+//*****************************
+// *         PAGE
+//*****************************/
+.page {
+	// Single column: typewritten orders are not two-column glossies.
+	-webkit-column-count  : 1;
+	-moz-column-count     : 1;
+	column-count          : 1;
+
+	font-family           : 'TT2020', 'Courier New', monospace;
+	font-size             : 0.34cm;
+	font-feature-settings : 'calt' 1; // TT2020 contextual alternates
+	line-height           : 1.45;
+	color                 : var(--HB_Color_Ink);
+
+	background-color      : var(--HB_Color_Background);
+	background-image      : url('/assets/foxholePlate.png');
+	background-repeat     : no-repeat;
+	background-size       : 100% 100%;
+}
+
+//*****************************
+// *         BASE
+//*****************************/
+.page {
+	p {
+		text-align : justify;
+		& + * { margin-top : 0.325cm; }
+		& + p { margin-top : 0; }
+	}
+	// No bold weight in TT2020: double-strike (overstrike) instead.
+	strong {
+		font-weight : normal;
+		text-shadow : 0.45px 0 0 currentColor;
+	}
+	em { font-style : italic; }
+	a {
+		color           : inherit;
+		text-decoration : underline;
+	}
+	ul, ol {
+		padding-left : 1.4em;
+		line-height  : 1.45;
+	}
+	// Indents after p or lists
+	p + p, ul + p, ol + p { text-indent : 1em; }
+
+	//*****************************
+	// *         HEADERS
+	//*****************************/
+	h1, h2, h3, h4, h5 {
+		font-weight : normal; // TT2020 has no bold; overstrike below
+		line-height : 1.2em;
+		color       : var(--HB_Color_Ink);
+	}
+	h1 {
+		margin-bottom  : 0.4cm;
+		font-family    : 'Special Elite', 'TT2020', monospace;
+		font-size      : 1.9em;
+		text-align     : center;
+		letter-spacing : 0.12em;
+	}
+	h2 {
+		padding-bottom : 2px;
+		margin-top     : 0.6cm;
+		font-size      : 1.25em;
+		letter-spacing : 0.18em;
+		text-shadow    : 0.45px 0 0 currentColor;
+		border-bottom  : 2px solid var(--HB_Color_Rule);
+	}
+	h3 {
+		margin-top     : 0.5cm;
+		font-size      : 1.1em;
+		letter-spacing : 0.1em;
+		text-shadow    : 0.45px 0 0 currentColor;
+	}
+	h4 {
+		font-size      : 1em;
+		letter-spacing : 0.08em;
+		text-shadow    : 0.45px 0 0 currentColor;
+	}
+	h5 {
+		font-size      : 0.9em;
+		color          : var(--HB_Color_Muted);
+		letter-spacing : 0.08em;
+	}
+
+	//*****************************
+	// *         TABLE (spec table)
+	//*****************************/
+	table {
+		font-size       : 0.95em;
+		border-collapse : collapse;
+		thead th {
+			font-weight    : normal;
+			text-align     : left;
+			letter-spacing : 0.08em;
+			text-shadow    : 0.45px 0 0 currentColor;
+			border-bottom  : 3px double var(--HB_Color_Rule);
+		}
+		tbody td { border-bottom : 1px solid var(--HB_Color_RowRule); }
+		tbody tr:last-child td { border-bottom : 2px solid var(--HB_Color_Rule); }
+		th, td {
+			padding        : 0.15cm 0.3cm;
+			vertical-align : top;
+		}
+	}
+
+	//*****************************
+	// *    BLOCKQUOTE (field note)
+	// *    A stuck-on correction patch: dirty white, faint shadow, no border.
+	//*****************************/
+	blockquote {
+		padding     : 0.4cm 0.6cm;
+		margin      : 0.5cm 0.3cm;
+		background  : linear-gradient(175deg, #F7F3E7 0%, #F0EAD7 55%, #E8E1CB 100%);
+		border      : none;
+		box-shadow  : 1px 1px 2px rgba(74, 62, 38, 0.18);
+		transform   : rotate(-0.6deg);
+		p { text-align : left; }
+	}
+
+	//*****************************
+	// *         RULE
+	//*****************************/
+	hr {
+		margin      : 0.6cm 0;
+		border      : none;
+		border-top  : 4px double var(--HB_Color_Rule);
+	}
+
+	//*****************************
+	// *      CODE (dispatch slip)
+	//*****************************/
+	pre {
+		padding    : 0.35cm 0.5cm;
+		font-size  : 0.95em;
+		background : rgba(255, 252, 244, 0.35);
+		border     : 1.5px solid var(--HB_Color_Rule);
+	}
+	code { font-family : inherit; }
+
+	//*****************************
+	// *   MUSTACHE: rubber stamp
+	// *   {{stamp\nAPPROVED\n}}
+	//*****************************/
+	.stamp {
+		display        : inline-block;
+		width          : auto;
+		padding        : 0.15cm 0.4cm 0.1cm 0.65cm;
+		margin         : 0.3cm 0;
+		font-family    : 'Special Elite', 'TT2020', monospace;
+		color          : var(--HB_Color_StampRed);
+		text-align     : center;
+		letter-spacing : 0.3em;
+		text-shadow    : 0.45px 0 0 currentColor;
+		border         : 4px double var(--HB_Color_StampRed);
+		opacity        : 0.8;
+		transform      : rotate(-8deg);
+		p { margin     : 0; text-align : center; }
+	}
+
+	//*****************************
+	// *   MUSTACHE: field note (block form of the patch)
+	// *   {{fieldnote\nQuartermaster's note...\n}}
+	//*****************************/
+	.fieldnote {
+		padding     : 0.4cm 0.6cm;
+		margin      : 0.5cm 0.3cm;
+		background  : linear-gradient(175deg, #F7F3E7 0%, #F0EAD7 55%, #E8E1CB 100%);
+		box-shadow  : 1px 1px 2px rgba(74, 62, 38, 0.18);
+		transform   : rotate(-0.6deg);
+		p { text-align : left; }
+	}
+
+	//*****************************
+	// *   MUSTACHE: routing block
+	// *   {{routing\nFROM: ...\nTO: ...\n}}
+	//*****************************/
+	.routing {
+		padding : 0.2cm 0;
+		margin  : 0.4cm 0;
+		p {
+			display       : flex;
+			align-items   : baseline;
+			margin        : 0.1cm 0;
+			text-align    : left;
+			&::after {
+				flex          : 1;
+				margin        : 0 0.3cm;
+				content       : '';
+				border-bottom : 2px dotted var(--HB_Color_Muted);
+				transform     : translateY(-4px);
+			}
+		}
+	}
+}
+
+//*****************************
+// *       PAGE NUMBER
+//*****************************/
+.page {
+	.pageNumber {
+		font-family : 'TT2020', 'Courier New', monospace;
+		color       : var(--HB_Color_Muted);
+		&.auto::after { content : '\2014  ' counter(page-numbers) '  \2014'; }
+	}
+}
+
+//*****************************
+// *      COVER (first page flourish)
+// *   {{coverpage}} ... legacy class hook, kept minimal
+//*****************************/
+.page {
+	.masthead {
+		position      : relative;
+		padding       : 0.5cm 0.4cm;
+		text-align    : center;
+		border-top    : 5px double var(--HB_Color_Rule);
+		border-bottom : 5px double var(--HB_Color_Rule);
+		h1 { margin : 0; }
+	}
+}

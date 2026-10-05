@@ -278,6 +278,7 @@ const ListPage = ({ brewCollection = [{ title: '', class: '', brews: [] }], navI
 		<div className='listPage sitePage'>
 			<link href='/themes/V3/Blank/style.css' type='text/css' rel='stylesheet' />
 			<link href='/themes/V3/5ePHB/style.css' type='text/css' rel='stylesheet' />
+			<link href='/themes/V3/Foxhole/style.css' type='text/css' rel='stylesheet' />
 			{navItems}
 			{renderSortOptions()}
 			{renderTagsOptions()}

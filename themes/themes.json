@@ -42,6 +42,13 @@
       "baseTheme": "Blank",
       "baseSnippets": false,
       "path": "UnearthedArcana"
+    },
+    "Foxhole": {
+      "name": "Foxhole",
+      "renderer": "V3",
+      "baseTheme": "Blank",
+      "baseSnippets": false,
+      "path": "Foxhole"
     }
   }
 }

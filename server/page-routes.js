@@ -39,7 +39,7 @@ export default function pageRoutes({
 		req.brew = {
 			text     : welcomeText,
 			renderer : 'V3',
-			theme    : '5ePHB'
+			theme    : 'Foxhole'
 		},
 
 		req.ogMeta = { ...defaultMetaTags,
@@ -73,7 +73,7 @@ export default function pageRoutes({
 		req.brew = {
 			text     : migrateText,
 			renderer : 'V3',
-			theme    : '5ePHB'
+			theme    : 'Foxhole'
 		},
 
 		req.ogMeta = { ...defaultMetaTags,
@@ -91,7 +91,7 @@ export default function pageRoutes({
 			title    : 'Changelog',
 			text     : changelogText,
 			renderer : 'V3',
-			theme    : '5ePHB'
+			theme    : 'Foxhole'
 		},
 
 		req.ogMeta = { ...defaultMetaTags,
@@ -109,7 +109,7 @@ export default function pageRoutes({
 			title    : 'FAQ',
 			text     : faqText,
 			renderer : 'V3',
-			theme    : '5ePHB'
+			theme    : 'Foxhole'
 		},
 
 		req.ogMeta = { ...defaultMetaTags,
