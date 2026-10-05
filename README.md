@@ -18,6 +18,10 @@ below.
 [homebrewery-url]: https://homebrewery.naturalcrit.com
 
 ### Installation
+> **Fork note:** this fork pulls the Foxhole theme from the `@gavmor/foxhole-styles`
+> package on GitHub Packages. `npm install` therefore needs a `NODE_AUTH_TOKEN`
+> with the `read:packages` scope — see [docs/github-packages.md](./docs/github-packages.md).
+
 First, install three programs that The Homebrewery requires to run and retrieve
 updates:
 

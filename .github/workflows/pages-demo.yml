@@ -12,6 +12,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  packages: read   # @gavmor/foxhole-styles is read from GitHub Packages; see docs/github-packages.md
   pages: write
   id-token: write
 concurrency:
@@ -27,6 +28,8 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci --no-audit --no-fund
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm run build
         env:
           HB_BASE: /homebrewery/
