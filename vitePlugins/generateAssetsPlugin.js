@@ -2,6 +2,26 @@
 import fs from 'fs-extra';
 import path from 'path';
 import less from 'less';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
+
+// The Foxhole theme is not vendored into ./themes — it ships inside the
+// @gavmor/foxhole-styles package and is compiled straight out of node_modules.
+// Package layout:  homebrewery/themes/{V3,fonts,assets}/...
+const foxholeRoot = path.join(
+	path.dirname(require.resolve('@gavmor/foxhole-styles/package.json')),
+	'homebrewery'
+);
+const foxholeThemes = path.join(foxholeRoot, 'themes');
+
+// Theme source roots, scanned in order. Each contributes its V3/ subdirectories.
+// `lessPaths` are extra search roots handed to less so that a theme's
+// cwd-relative `@import './themes/...'` resolves inside its own package.
+const themeRoots = [
+	{ dir: '.', lessPaths: [] },
+	{ dir: foxholeRoot, lessPaths: [foxholeRoot] },
+];
 
 export function generateAssetsPlugin(isDev = false) {
 	return {
@@ -40,35 +60,49 @@ export function generateAssetsPlugin(isDev = false) {
 				await fs.outputFile(outputDir, lessOutput.css);
 			}
 
-			// Compile V3 themes
-			const v3Dirs = fs.readdirSync('./themes/V3');
-			for (const dir of v3Dirs) {
-				const themeData = JSON.parse(fs.readFileSync(`./themes/V3/${dir}/settings.json`, 'utf-8'));
-				themeData.path = dir;
-				themes.V3[dir] = themeData;
+			// Compile V3 themes from every root (repo-local plus installed packages)
+			for (const root of themeRoots) {
+				const v3Root = path.join(root.dir, 'themes', 'V3');
+				const v3Dirs = fs.readdirSync(v3Root);
+				for (const dir of v3Dirs) {
+					const themeDir = path.join(v3Root, dir);
+					const themeData = JSON.parse(fs.readFileSync(path.join(themeDir, 'settings.json'), 'utf-8'));
+					themeData.path = dir;
+					themes.V3[dir] = themeData;
 
-				await fs.copy(
-					`./themes/V3/${dir}/dropdownTexture.png`,
-					`${buildDir}/themes/V3/${dir}/dropdownTexture.png`,
-				);
-				await fs.copy(
-					`./themes/V3/${dir}/dropdownPreview.png`,
-					`${buildDir}/themes/V3/${dir}/dropdownPreview.png`,
-				);
+					await fs.copy(
+						path.join(themeDir, 'dropdownTexture.png'),
+						`${buildDir}/themes/V3/${dir}/dropdownTexture.png`,
+					);
+					await fs.copy(
+						path.join(themeDir, 'dropdownPreview.png'),
+						`${buildDir}/themes/V3/${dir}/dropdownPreview.png`,
+					);
 
-				const src = `./themes/V3/${dir}/style.less`;
-				const outputDir = `${buildDir}/themes/V3/${dir}/style.css`;
-				const lessOutput = await less.render(fs.readFileSync(src, 'utf-8'), { compress: !isDev });
-				await fs.outputFile(outputDir, lessOutput.css);
+					const src = path.join(themeDir, 'style.less');
+					const outputDir = `${buildDir}/themes/V3/${dir}/style.css`;
+					const lessOutput = await less.render(fs.readFileSync(src, 'utf-8'), {
+						compress : !isDev,
+						paths    : root.lessPaths,
+					});
+					await fs.outputFile(outputDir, lessOutput.css);
+				}
 			}
 
-			// Write themes.json
-			await fs.outputFile('./themes/themes.json', JSON.stringify(themes, null, 2));
+			// Write themes.json — keys sorted so output is stable regardless of
+			// which root a theme was discovered in
+			const sortKeys = (obj)=>Object.fromEntries(Object.entries(obj).sort(([a], [b])=>a.localeCompare(b)));
+			const sortedThemes = { Legacy: sortKeys(themes.Legacy), V3: sortKeys(themes.V3) };
+			await fs.outputFile('./themes/themes.json', JSON.stringify(sortedThemes, null, 2));
 
 			// Copy fonts/assets/icons
 			await fs.copy('./themes/fonts', `${buildDir}/fonts`);
 			await fs.copy('./themes/assets', `${buildDir}/assets`);
 			await fs.copy('./client/icons', `${buildDir}/icons`);
+
+			// Foxhole ships its own webfonts and aged-paper plate alongside the theme
+			await fs.copy(path.join(foxholeThemes, 'fonts'), `${buildDir}/fonts`);
+			await fs.copy(path.join(foxholeThemes, 'assets'), `${buildDir}/assets`);
 		},
 	};
 }

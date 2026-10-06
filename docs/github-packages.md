@@ -87,5 +87,8 @@ npm view @gavmor/telemetry-collector version    # -> 1.6.4
 npm install @gavmor/telemetry-collector         # -> added 7 packages
 ```
 
-Once `@gavmor/foxhole-styles` is published, `npm install @gavmor/foxhole-styles`
-resolves through the identical path with no further configuration.
+`@gavmor/foxhole-styles` resolves through the identical path with no further
+configuration. It is a normal entry in `dependencies`, so a plain `npm install`
+(with the token exported) pulls it; the Foxhole theme is then compiled straight
+out of `node_modules/@gavmor/foxhole-styles` by the Vite asset plugin — nothing
+is copied into `themes/`.

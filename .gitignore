@@ -15,8 +15,3 @@ startMViewer.bat
 
 coverage
 
-# Foxhole theme — vendored from the foxhole-styles npm dependency
-# (gavmor/foxhole-styles); materialized by scripts/sync-foxhole-styles.js
-themes/V3/Foxhole/
-themes/fonts/Foxhole/
-themes/assets/foxholePlate.png
