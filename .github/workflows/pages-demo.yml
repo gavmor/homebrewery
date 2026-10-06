@@ -3,8 +3,6 @@
 # The full Homebrewery app needs Node.js + MongoDB and cannot run on Pages;
 # this ships the client-only sandbox: the /new editor works from localStorage
 # with a static /api/theme/* stub, so the Foxhole theme is live and editable.
-# NOTE: the built client uses root-absolute URLs, so the Pages site must be
-# served from the domain root (custom domain, or a <user>.github.io repo).
 name: Deploy demo to GitHub Pages
 on:
   push:
@@ -19,7 +17,20 @@ concurrency:
   group: pages
   cancel-in-progress: true
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm test
   build:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

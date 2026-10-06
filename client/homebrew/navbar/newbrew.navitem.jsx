@@ -26,7 +26,7 @@ const NewBrew = ()=>{
 				localStorage.setItem(METAKEY, JSON.stringify(
 					_.pick(newBrew, ['title', 'description', 'tags', 'renderer', 'theme', 'lang'])
 				));
-				window.location.href = '/new';
+				window.location.href = `${import.meta.env.BASE_URL}new`;
 				return;
 			}
 
@@ -59,7 +59,7 @@ const NewBrew = ()=>{
 		localStorage.removeItem(STYLEKEY);
 		localStorage.removeItem(METAKEY);
 
-		window.location.href = '/new';
+		window.location.href = `${import.meta.env.BASE_URL}new`;
 		return;
 	};
 

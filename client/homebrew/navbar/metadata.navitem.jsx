@@ -1,6 +1,7 @@
 import React from 'react';
 import createReactClass from 'create-react-class';
 import Moment from 'moment';
+import { Link } from 'react-router';
 
 import Nav from './nav.jsx';
 
@@ -32,7 +33,7 @@ const MetadataNav = createReactClass({
 		return <>
 			{this.props.brew.authors.map((author, idx, arr)=>{
 				const spacer = arr.length - 1 == idx ? <></> : <span>, </span>;
-				return <span key={idx}><a className='userPageLink' href={`/user/${encodeURIComponent(author)}`}>{author}</a>{spacer}</span>;
+				return <span key={idx}><Link className='userPageLink' to={`/user/${encodeURIComponent(author)}`}>{author}</Link>{spacer}</span>;
 			})}
 		</>;
 	},

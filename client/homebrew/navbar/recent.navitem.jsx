@@ -2,6 +2,7 @@ import React from 'react';
 import createReactClass from 'create-react-class';
 import _ from 'lodash';
 import Moment from 'moment';
+import { Link } from 'react-router';
 
 import Nav from './nav.jsx';
 
@@ -144,11 +145,11 @@ const RecentItems = createReactClass({
 
 		const makeItems = (brews)=>{
 			return _.map(brews, (brew, i)=>{
-				return <a className='navItem' href={brew.url} key={`${brew.id}-${i}`} target='_blank' rel='noopener noreferrer' title={brew.title || '[ no title ]'}>
+				return <Link className='navItem' to={brew.url} key={`${brew.id}-${i}`} target='_blank' rel='noopener noreferrer' title={brew.title || '[ no title ]'}>
 					<span className='title'>{brew.title || '[ no title ]'}</span>
 					<span className='time'>{Moment(brew.ts).fromNow()}</span>
 					<div className='clear' title='Remove from Recents' onClick={(e)=>{this.removeItem(`${brew.url}`, e);}}><i className='fas fa-times'></i></div>
-				</a>;
+				</Link>;
 			});
 		};
 

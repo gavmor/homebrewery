@@ -1,6 +1,4 @@
 import React from 'react';
-import dedent from 'dedent';
-
 import Nav from './nav.jsx';
 
 export default function(props){
@@ -9,11 +7,7 @@ export default function(props){
 			need help?
 		</Nav.item>
 		<Nav.item color='red' icon='fas fa-fw fa-bug'
-			href={`https://www.reddit.com/r/homebrewery/submit?selftext=true&text=${encodeURIComponent(dedent`
-			- **Browser(s)** :
-			- **Operating System** :  
-			- **Legacy or v3 Renderer** :
-			- **Issue** :  `)}`}
+			href='https://github.com/gavmor/homebrewery/issues'
 			newTab={true}
 			rel='noopener noreferrer'>
 			report issue

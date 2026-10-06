@@ -1,5 +1,6 @@
 import './navbar.less';
 import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router';
 import cx from 'classnames';
 
 import NaturalCritIcon from '@components/svg/naturalcrit-d20.svg.jsx';
@@ -28,10 +29,16 @@ const Nav = {
 	item : ({ icon,	href,	newTab,	onClick, color, children, className, ...props })=>{
 		const classes = cx('navItem', color, className);
 		if(href){
-			return <a className={classes} href={href} target={newTab ? '_blank' : '_self'} {...props}>
+			if(/^https?:\/\//.test(href)){
+				return <a className={classes} href={href} target={newTab ? '_blank' : '_self'} {...props}>
+					{children}
+					{icon && <i className={icon}></i>}
+				</a>;
+			}
+			return <Link className={classes} to={href} target={newTab ? '_blank' : '_self'} {...props}>
 				{children}
 				{icon && <i className={icon}></i>}
-			</a>;
+			</Link>;
 		} else {
 			return <button {...props} className={classes} onClick={onClick} >
 				{children}
